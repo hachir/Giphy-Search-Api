@@ -10,7 +10,7 @@ CSS - For styling components
 
 JavaScript - For magic!
 
-Features ✨
+🅵🅴🅰🆃🆄🆁🅴🆂 ✨
 
 🤖 Lightweight and minimal: Crafted with minimalistic UI design
 
