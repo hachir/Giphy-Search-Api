@@ -154,3 +154,160 @@ function window_WidthHeight () {
 }
 
 function copyToClipboard (str) {
+   // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+   const el = document.createElement('textarea');
+   el.value = str
+   el.setAttribute('readonly', '')
+   el.style.position = 'absolute'
+   el.style.left = '-9999px'
+   document.body.appendChild(el)
+   const selected =
+     document.getSelection().rangeCount > 0
+       ? document.getSelection().getRangeAt(0)
+       : false;
+   el.select()
+   document.execCommand('copy')
+   document.body.removeChild(el)
+   if (selected) {
+     document.getSelection().removeAllRanges()
+     document.getSelection().addRange(selected)
+   }
+ }
+ 
+ window.onload = () => {
+   const w = window_WidthHeight().width;
+   const h = window_WidthHeight().height;
+ 
+   // scroll page with up/down arrows of keyboard
+   document.body.onkeydown = function(e) {
+     let code = e.keyCode;
+     let imgArea = document.getElementById('imgArea');
+ 
+     if (code === 40) {
+       imgArea.scrollTo(0, imgArea.scrollTop + 35);
+     }
+     else if (code === 38) {
+       imgArea.scrollTo(0, imgArea.scrollTop - 35);
+     }
+   }
+ 
+   // add more gifs when scroll
+   document.getElementById('imgArea').addEventListener('scroll', ({target}) => {
+     const ele = target;
+     if (ele.scrollHeight - ele.scrollTop <= ele.clientHeight + h / 4) {
+       const x = document.getElementById('inputS').value;
+       if (searchType() == 'gifs/search?') addRandom(x, 'gifs')
+     }
+   })
+ 
+   // event
+   document
+     .getElementById('inputS')
+     .addEventListener('change', e => changeImage())
+   document
+     .getElementById('sType')
+     .addEventListener('change', e => changeImage())
+   document
+     .getElementById('playPauseBut')
+     .addEventListener('click', e => playPauseImage())
+ 
+   document.getElementById('shareFb').addEventListener('click', ({target}) => {
+     window.open(`https://facebook.com/sharer/sharer.php?t=Helloish 👻👋 • AWKWARD GIFS OF PEOPLE SAYING HELLO&u=${target.getAttribute('data')}`)
+   })
+   document.getElementById('shareTwitter').addEventListener('click', ({target}) => {
+     window.open(`https://twitter.com/intent/tweet?text=Helloish 👻👋 • AWKWARD GIFS OF PEOPLE SAYING HELLO&url=${target.getAttribute('data')}`)
+   })
+   if (navigator.share) {
+     document.getElementById('shareAll').style.display = "block";
+   } else {
+     document.getElementById('shareAll').style.display = "none";
+   }
+   document.getElementById('shareAll').addEventListener('click', ({target}) => {
+     if (navigator.share) {
+       navigator.share({
+           title: `Helloish 👻👋`,
+           text: `Helloish 👻👋`,
+           url: target.getAttribute('data')
+         }).then(() => {})
+         .catch(console.error);
+     } else {
+       console.log("No native share support!")
+     }
+   })
+   document.getElementById('shareLink').addEventListener('click', ({target}) => {
+     copyToClipboard(target.getAttribute('data'))
+   })
+ 
+   // event
+   imgArea.addEventListener('mouseover', ({target}) => {
+     if (target.matches('img')) {
+       const eles = document.getElementsByClassName('a');
+       let realImagePosition = target.getBoundingClientRect();
+       for (let i = 0; i < eles.length; i++) {
+         eles[i].style.top = `${realImagePosition.y + 16}px`
+         eles[i].style.left = `${realImagePosition.x + 32 * i}px`
+         eles[i].setAttribute('data', target.src)
+       }
+ 
+       if (playOrPause == 'Auto play: OFF') { target.src = links[target.textContent].small }
+     }
+   })
+   imgArea.addEventListener('mouseout', ({target}) => {
+     if (target.matches('img') && playOrPause == 'Auto play: OFF') {
+       target.src = links[target.textContent].image
+     }
+   })
+ 
+   imgArea.addEventListener('click', ({target}) => {
+     if (target.matches('img')) {
+       window.open(links[target.textContent].full)
+     }
+   })
+ 
+   // add firt random gif
+   for (let i = 0; i < h / 20; i++) {
+     addRandom('hello', 'gifs')
+   }
+ }
+ 
+ const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]')
+ if (localStorage.getItem('marcdownTheme') == 'dark') {
+     document.documentElement.setAttribute('data-theme', 'dark')
+     document.querySelector('meta[name=theme-color]').setAttribute('content', '#282a36')
+     toggleSwitch.checked = true
+     localStorage.setItem('marcdownTheme', 'dark')
+ } else {
+     document.documentElement.setAttribute('data-theme', 'light')
+     document.querySelector('meta[name=theme-color]').setAttribute('content', '#DAE5ED')
+     toggleSwitch.checked = false
+     localStorage.setItem('marcdownTheme', 'light')
+ }
+ const switchTheme = ({
+     target
+ }) => {
+     if (target.checked) {
+         document.documentElement.setAttribute('data-theme', 'dark')
+         document.querySelector('meta[name=theme-color]').setAttribute('content', '#282a36')
+         localStorage.setItem('marcdownTheme', 'dark')
+     } else {
+         document.documentElement.setAttribute('data-theme', 'light')
+         document.querySelector('meta[name=theme-color]').setAttribute('content', '#DAE5ED')
+         localStorage.setItem('marcdownTheme', 'light')
+     }
+ }
+ toggleSwitch.addEventListener('change', switchTheme, false)
+ 
+ const modal = document.querySelector('.modal')
+ const trigger = document.querySelector('.trigger')
+ const closeButton = document.querySelector('.close-button')
+ const toggleModal = () => modal.classList.toggle('show-modal')
+ const windowOnClick = ({
+     target
+ }) => {
+     if (target === modal) {
+         toggleModal()
+     }
+ }
+ trigger.addEventListener('click', toggleModal)
+ closeButton.addEventListener('click', toggleModal)
+ window.addEventListener('click', windowOnClick)  
