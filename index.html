@@ -61,4 +61,40 @@
        });
      }
    </script>
-   
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110585634-11"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-110585634-11');
+  </script>
+</head>
+
+<body>
+  <header id="searchArea">
+    <div class="flex">
+      <div>
+        <a href="./">
+          <h1 class="logo">hachir 👻👋</h1>
+        </a>
+        <h4 class="description">AWKWARD GIFS OF PEOPLE SAYING HELLO</h4>
+      </div>
+      <div>🌗
+        <label class="theme-switch" for="checkbox" title="Night mode">
+          <input type="checkbox" id="checkbox">
+          <div class="slider round"></div>
+        </label>
+        <button id="playPauseBut" title="Set Autoplay">Auto play: ON</button>
+        <select id="sType" title="Change type search">
+          <option value="gifs/search?">Search Gifs</option>
+          <option value="stickers/search?">Search Stickers</option>
+          <option value="gifs/trending?">Trending Gifs</option>
+          <option value="stickers/trending?">Trending Stickers</option>
+        </select>
+        <input id="inputS" class="search" type="search" placeholder="Search GIFs">
+      </div>
+    </div>
+  </header>
