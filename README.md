@@ -21,3 +21,4 @@ JavaScript - For magic!
 ✨ Choose custom colors: Choose your own colors
 
 🤖 AI: Generate combination colors for background and foreground
+

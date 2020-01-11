@@ -28,8 +28,8 @@
 }
 
 a {
-  color: var(--fg-color);
-  fill: var(--fg-color);
+  color: yellow;
+  fill: yellow;
   text-decoration: none;
 }
 
