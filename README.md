@@ -22,3 +22,8 @@ JavaScript - For magic!
 
 🤖 AI: Generate combination colors for background and foreground
 
+<<<<<<< HEAD
+=======
+
+----  https://hachir.github.io/Giphy-Search-Api/_ _______*
+>>>>>>> 5c41f33cdae367f25619c7488523733d76355b57
